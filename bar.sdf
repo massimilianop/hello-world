@@ -1,0 +1,150 @@
+<?xml version='1.0'?>
+<sdf version="1.4">
+<model name="bar and joints">
+  <!--<pose>0 0 0.5 0 0 0</pose>--> 
+  <static>false</static>
+
+<!-- THIS LINK REPRESENTS THE PAYLOAD -->
+    <link name="bar">
+     <pose>0 0 0.1 0 0 0</pose>
+
+      <inertial>
+        <mass>1.0</mass>
+        <inertia> <!-- interias are tricky to compute -->
+          <!-- http://answers.gazebosim.org/question/4372/the-inertia-matrix-explained/ -->
+          <ixx>0.083</ixx>       <!-- for a box: ixx = 0.083 * mass * (y*y + z*z) -->
+          <ixy>0.0</ixy>         <!-- for a box: ixy = 0 -->
+          <ixz>0.0</ixz>         <!-- for a box: ixz = 0 -->
+          <iyy>0.083</iyy>       <!-- for a box: iyy = 0.083 * mass * (x*x + z*z) -->
+          <iyz>0.0</iyz>         <!-- for a box: iyz = 0 -->
+          <izz>0.083</izz>       <!-- for a box: izz = 0.083 * mass * (x*x + y*y) -->
+        </inertia>
+      </inertial>
+
+      <!-- no collision -->
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>2 0.05 0.05</size>
+          </box>
+        </geometry>
+      </collision>
+      <!-- -->
+
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>2 0.05 0.05</size>
+          </box>
+        </geometry>
+      </visual>
+
+    </link>
+
+<!-- THIS LINK REPRESENTS CABLE 1 -->
+      <link name="cable_1">
+        <pose>1 0 1.6 0 0 0</pose>
+
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.01</radius>
+              <length>3</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.01</radius>
+              <length>3</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+
+<!-- THIS LINK REPRESENTS CABLE 2 -->
+      <link name="cable_2">
+        <pose>-1 0 1.6 0 0 0</pose>
+
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.01</radius>
+              <length>3</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.01</radius>
+              <length>3</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+
+<!-- this is a TEST LINK to implement joints ->
+      <link name="left_wheel">
+        <pose>-1.03 0 0.1 1.5707 0 1.5707</pose>
+
+        <collision name="collision">
+          <geometry>
+            <cylinder>
+              <radius>.1</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <cylinder>
+              <radius>.1</radius>
+              <length>.05</length>
+            </cylinder>
+          </geometry>
+        </visual>
+      </link>
+-->
+
+<!-- these are the JOINTS between the bar and the cables -->
+      <joint type="revolute2" name="bar_cable1">
+        <pose>0 0 -1.5 0 0 0</pose>
+
+        <child>cable_1</child>
+        <parent>bar</parent>
+
+        <axis>
+          <xyz>1 0 0</xyz>
+        </axis>
+
+        <axis2>
+          <xyz>0 1 0</xyz>
+        </axis2>
+
+      </joint>
+
+
+      <joint type="revolute2" name="bar_cable2">
+        <pose>0 0 -1.5 0 0 0</pose>
+
+        <child>cable_2</child>
+        <parent>bar</parent>
+
+        <axis>
+          <xyz>1 0 0</xyz>
+        </axis>
+
+        <axis2>
+          <xyz>0 1 0</xyz>
+        </axis2>
+
+      </joint>
+
+
+  </model>
+</sdf>
